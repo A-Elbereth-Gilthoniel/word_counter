@@ -10,7 +10,7 @@ OBJ = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)%.o, $(SRC))
 
 
 $(TARGET) : $(OBJ)
-	gcc $(OBJ) -o $(TARGET)
+	gcc $(OBJ) -o $(TARGET) -O0 -g
 
 $(PREF_OBJ)%.o : $(PREF_SRC)%.c
 	gcc -c $< -o $@

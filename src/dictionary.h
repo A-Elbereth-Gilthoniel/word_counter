@@ -15,6 +15,7 @@ dictionary* dictionary_create(size_t start_capacity);
 void dictionary_push(dictionary* dict, char* word);
 void dictionary_realloc(dictionary* dict, int new_capacity);
 void dictionary_print(dictionary* dict);
+void dictionary_destroy(dictionary* dict);
 
 //=====================================================================================
 
@@ -70,4 +71,17 @@ void dictionary_print(dictionary* dict)
         printf("%s\t%lu\n", dict->word_list[i], dict->onset_number[i]);
     }
     // printf("");
+}
+
+//=====================================================================================
+
+void dictionary_destroy(dictionary* dict)
+{
+    for (int i = 0; i < dict->dict_size; i++)
+    {
+        free(dict->word_list[i]);
+    }
+    free(dict->word_list);
+    free(dict->onset_number);
+    free(dict);
 }

@@ -2,7 +2,7 @@
 #include "parser.h"
 #include "dictionary.h"
 
-void parsing(parser* pars, dictionary* dict);
+//=======================================================================
 
 int main(int argc, char *argv[])
 {
@@ -12,43 +12,18 @@ int main(int argc, char *argv[])
     parser* new_parser = parser_create(file_name);
     dictionary* new_dict = dictionary_create(MIN_DICT_CAPACITY);
 
-    parsing(new_parser, new_dict);
+    char* buffer;
+
+    while (buffer = parsing(new_parser))
+    {
+        dictionary_push(new_dict, buffer);
+        free(buffer);
+    }
 
     dictionary_print(new_dict);
+
+    dictionary_destroy(new_dict);
+    parser_destroy(new_parser);
 }
 
 //======================================================================
-
-void parsing(parser* pars, dictionary* dict)
-{
-    char* buffer = (char*) calloc((WORD_MAX_SIZE + 1), sizeof(char));
-    char* start = buffer;
-    char cur_symb;
-
-    for (int i = 0; i < pars->size + 1; i++)
-    {
-        cur_symb = pars->text[i];
-        if (cur_symb >= 'A' && cur_symb <= 'Z')
-        {
-            *buffer = cur_symb + 32;
-            buffer += sizeof(char);
-            continue;
-        }
-        else if (cur_symb >= 'a' && cur_symb <= 'z')
-        {
-            *buffer = cur_symb;
-            buffer += sizeof(char);
-            continue;
-        }
-        else if (buffer == start)
-        {
-            continue;
-        }
-        else
-        {
-            *(buffer) = '\0';
-            dictionary_push(dict, start);
-            buffer = start;
-        }
-    }
-}
