@@ -14,6 +14,12 @@ parser* parser_create(char* file_name)
 {
     parser* created = (parser*) malloc(sizeof(parser));
     FILE *fp = fopen(file_name, "rb");
+    if (!fp)
+    {
+        perror("error: ");
+        return NULL;
+    }
+
     created->size = find_file_size(fp);
 
     created->text = (char*)calloc(created->size + 1, sizeof(char));

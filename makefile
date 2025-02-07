@@ -2,18 +2,19 @@ TARGET = prog
 
 PREF_SRC = ./src/
 PREF_OBJ = ./obj/
-PREF_FILE = ./files/
-DELF = .\obj\
+
+CFLAGS = -O0 -g -Wall
+CC = gcc
 
 SRC = $(wildcard $(PREF_SRC)*.c)
 OBJ = $(patsubst $(PREF_SRC)%.c, $(PREF_OBJ)%.o, $(SRC))
 
 
 $(TARGET) : $(OBJ)
-	gcc $(OBJ) -o $(TARGET) -O0 -g
+	$(CC) $(OBJ) -o $(TARGET) $(CFLAGS)
 
 $(PREF_OBJ)%.o : $(PREF_SRC)%.c
-	gcc -c $< -o $@
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 
 .PHONY : clean
